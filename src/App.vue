@@ -2212,16 +2212,18 @@ input { font-family: inherit; }
   height: 100vh;
 }
 
-/* topbar — 3 column grid keeps mode-switch perfectly centered */
+/* topbar */
 .topbar {
   grid-area: top;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   padding: 0 22px;
   border-bottom: 1px solid var(--line);
   background: var(--surface);
   -webkit-app-region: drag;
+  position: relative;
+  --mode-switch-shift: 150px;
 }
 [data-platform="mac"] .topbar { padding-left: 96px; padding-right: 36px; }
 [data-platform="other"] .topbar { padding-left: 22px; padding-right: 156px; }
@@ -2233,9 +2235,20 @@ input { font-family: inherit; }
 .topbar .save-state { -webkit-app-region: no-drag; }
 .topbar-left { display: flex; align-items: center; min-width: 0; }
 .topbar-right { display: flex; align-items: center; gap: 10px; justify-self: end; min-width: 0; }
+.topbar .mode-switch {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(calc(-50% - var(--mode-switch-shift)), -50%);
+  z-index: 1;
+}
 @media (max-width: 1180px) {
   .topbar .save-state .save-text { display: none; }
   .topbar .stats { display: none; }
+  .topbar { --mode-switch-shift: 110px; }
+}
+@media (max-width: 940px) {
+  .topbar { --mode-switch-shift: 72px; }
 }
 
 /* brand inside topbar — padding-left on .topbar already clears mac traffic lights */
